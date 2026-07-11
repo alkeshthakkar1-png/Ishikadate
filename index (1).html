@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question For You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     EDIT ME: personalize the page before you send it!
+     Search this file for "EDIT:" to find every spot you can
+     change — names, notes, cafés, colors.
+  ========================================================= */
+
+  :root{
+    --blush:      #FFF3ED;   /* page background */
+    --coral:      #FF6B6B;   /* primary accent / buttons */
+    --coral-deep: #E44F4F;
+    --plum:       #6E2A46;   /* headline / text ink */
+    --peach:      #FFD3B0;   /* card fill */
+    --gold:       #F2B705;   /* sparkle accent */
+    --sage:       #7FA37F;   /* the one cool-toned surprise */
+    --paper:      #FFFBF8;
+    --ink-soft:   #8A5C6E;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--blush);
+    color:var(--plum);
+    font-family:'Quicksand', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; margin:0; }
+  .script{ font-family:'Caveat', cursive; }
+
+  a{ color:inherit; }
+
+  /* ---------- floating hearts background layer ---------- */
+  #heart-field{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .float-heart{
+    position:absolute; top:-60px; font-size:22px; opacity:.55;
+    animation: drift linear infinite;
+    color:var(--coral);
+    filter:saturate(1.1);
+  }
+  @keyframes drift{
+    0%{ transform:translateY(-10vh) translateX(0) rotate(0deg); opacity:0; }
+    10%{ opacity:.6; }
+    90%{ opacity:.55; }
+    100%{ transform:translateY(110vh) translateX(var(--drift,40px)) rotate(360deg); opacity:0; }
+  }
+
+  section{ position:relative; z-index:1; padding:80px 20px; max-width:880px; margin:0 auto; }
+
+  /* ---------- HERO ---------- */
+  #hero{
+    min-height:92vh; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding-top:40px;
+  }
+  .eyebrow{
+    font-family:'Quicksand'; letter-spacing:.18em; text-transform:uppercase;
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px; font-weight:700;
+  }
+  #hero h1{
+    font-size:clamp(38px, 7vw, 70px);
+    line-height:1.06;
+    font-weight:600;
+    max-width:12ch;
+  }
+  #hero .script-big{
+    font-family:'Caveat'; font-weight:700; color:var(--coral-deep);
+    font-size:clamp(46px, 9vw, 92px); display:block; line-height:1;
+    transform:rotate(-2deg); margin-top:6px;
+  }
+  #hero p.sub{
+    margin-top:22px; font-size:18px; color:var(--ink-soft); max-width:42ch;
+  }
+  .scroll-cue{
+    margin-top:56px; font-size:14px; color:var(--ink-soft);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    animation:bob 2s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(8px);} }
+
+  .divider{
+    width:100%; height:40px; margin:0 auto;
+  }
+
+  /* ---------- HERO PHOTO ---------- */
+  .hero-photo-wrap{
+    margin-top:34px; position:relative;
+  }
+  .hero-photo{
+    width:min(360px, 78vw);
+    aspect-ratio:4/5;
+    object-fit:cover;
+    border-radius:14px;
+    border:10px solid var(--paper);
+    box-shadow:0 24px 50px -20px rgba(110,42,70,.45);
+    transform:rotate(-3deg);
+  }
+  .hero-photo-caption{
+    font-family:'Caveat'; font-size:20px; color:var(--coral-deep);
+    position:absolute; bottom:-14px; right:-6px; transform:rotate(4deg);
+    background:var(--paper); padding:2px 10px; border-radius:6px;
+    box-shadow:0 4px 10px rgba(110,42,70,.2);
+  }
+
+  /* ---------- GALLERY / POLAROIDS ---------- */
+  #gallery h2{ text-align:center; font-size:clamp(28px,4vw,40px); margin-bottom:8px; }
+  #gallery .lede{ text-align:center; color:var(--ink-soft); margin-bottom:52px; }
+  .gallery-grid{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:34px 26px;
+  }
+  .polaroid{
+    background:var(--paper); padding:14px 14px 46px; border-radius:6px;
+    box-shadow:0 16px 34px -16px rgba(110,42,70,.4), 0 3px 6px rgba(110,42,70,.1);
+    width:220px; position:relative; transition:transform .25s ease;
+  }
+  .polaroid:nth-child(1){ transform:rotate(-4deg); }
+  .polaroid:nth-child(2){ transform:rotate(3deg); }
+  .polaroid:nth-child(3){ transform:rotate(-2deg); }
+  .polaroid:hover{ transform:rotate(0) translateY(-6px) scale(1.04); z-index:2; }
+  .polaroid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2px; display:block;
+  }
+  .polaroid .cap{
+    font-family:'Caveat'; font-size:20px; text-align:center; color:var(--plum);
+    position:absolute; bottom:10px; left:0; right:0;
+  }
+
+  /* ---------- NOTES / SCRAPBOOK ---------- */
+  #notes h2{ text-align:center; font-size:clamp(28px,4vw,40px); margin-bottom:8px; }
+  #notes .lede{ text-align:center; color:var(--ink-soft); margin-bottom:48px; }
+  .note-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:28px 22px;
+  }
+  @media (max-width:640px){ .note-grid{ grid-template-columns:1fr 1fr; } }
+  .note-card{
+    background:var(--paper);
+    border-radius:4px;
+    padding:24px 20px 28px;
+    box-shadow:0 10px 24px -12px rgba(110,42,70,.35), 0 2px 4px rgba(110,42,70,.08);
+    font-family:'Caveat'; font-size:24px; line-height:1.32; color:var(--plum);
+    position:relative;
+    transition:transform .25s ease;
+  }
+  .note-card.joke{ background:#FFF0DE; }
+  .note-card:nth-child(odd){ transform:rotate(-3deg); }
+  .note-card:nth-child(even){ transform:rotate(2.5deg); }
+  .note-card:hover{ transform:rotate(0deg) translateY(-4px) scale(1.03); }
+  .note-card::before{
+    content:'';
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-4deg);
+    width:34px; height:14px; background:rgba(255,211,176,.85);
+    box-shadow:0 2px 3px rgba(0,0,0,.12);
+  }
+  .note-num{
+    font-family:'Quicksand'; font-size:11px; letter-spacing:.14em; color:var(--sage);
+    text-transform:uppercase; font-weight:700; display:block; margin-bottom:6px;
+  }
+
+  /* ---------- PLANNER (date/time + cafe) ---------- */
+  #planner{
+    background:var(--paper); border-radius:22px; padding:48px clamp(20px,5vw,56px);
+    box-shadow:0 20px 50px -25px rgba(110,42,70,.3);
+  }
+  #planner h2{ text-align:center; font-size:clamp(28px,4vw,40px); }
+  #planner .lede{ text-align:center; color:var(--ink-soft); margin:8px 0 40px; }
+
+  .field-row{
+    display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin-bottom:44px;
+  }
+  .field{
+    flex:1 1 200px; max-width:260px;
+  }
+  .field label{
+    display:block; font-weight:700; font-size:13px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--coral-deep); margin-bottom:8px;
+  }
+  .field input, .field select{
+    width:100%; padding:13px 14px; border-radius:12px; border:2px solid var(--peach);
+    background:var(--blush); font-family:'Quicksand'; font-size:16px; color:var(--plum);
+    font-weight:600; outline:none; transition:border-color .2s;
+  }
+  .field input:focus, .field select:focus{ border-color:var(--coral); }
+
+  .cafe-heading{
+    text-align:center; font-weight:700; font-size:13px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--coral-deep); margin-bottom:18px;
+  }
+  .cafe-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:16px;
+  }
+  @media (max-width:640px){ .cafe-grid{ grid-template-columns:1fr; } }
+  .cafe-card{
+    border:2px solid var(--peach); border-radius:16px; padding:16px 18px;
+    cursor:pointer; text-align:left; background:var(--blush); transition:.2s;
+  }
+  .cafe-card:hover{ border-color:var(--coral); transform:translateY(-2px); }
+  .cafe-card.selected{
+    border-color:var(--coral); background:#FFE8E0;
+    box-shadow:0 8px 20px -12px rgba(228,79,79,.5);
+  }
+  .cafe-card h4{
+    font-family:'Fraunces'; font-size:17px; margin-bottom:4px; font-weight:600;
+  }
+  .cafe-card .meta{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
+  .cafe-card .stars{ color:var(--gold); font-size:13px; margin-top:4px; }
+
+  /* ---------- RSVP ---------- */
+  #rsvp{ text-align:center; padding-bottom:120px; }
+  #rsvp h2{ font-size:clamp(30px,5vw,46px); margin-bottom:14px; }
+  #rsvp .plan-echo{
+    font-size:16px; color:var(--ink-soft); margin-bottom:44px; min-height:24px;
+  }
+  .rsvp-buttons{
+    position:relative; display:flex; gap:24px; justify-content:center;
+    align-items:center; height:120px;
+  }
+  .btn{
+    padding:16px 38px; border-radius:999px; border:none; font-family:'Quicksand';
+    font-weight:700; font-size:17px; cursor:pointer; letter-spacing:.02em;
+  }
+  #yes-btn{
+    background:var(--coral); color:#fff; box-shadow:0 12px 24px -10px rgba(228,79,79,.6);
+    transition:transform .15s;
+  }
+  #yes-btn:hover{ transform:scale(1.06); }
+  #no-btn{
+    background:transparent; color:var(--ink-soft); border:2px solid var(--peach);
+    position:relative; transition:transform .12s ease-out;
+  }
+
+  #celebration{
+    display:none; text-align:center; padding-top:10px;
+  }
+  #celebration.show{ display:block; }
+  #celebration h3{ font-size:clamp(26px,4vw,36px); color:var(--coral-deep); margin-bottom:10px; }
+  #celebration .summary{
+    display:inline-block; text-align:left; background:var(--paper);
+    border-radius:16px; padding:22px 28px; margin-top:18px;
+    box-shadow:0 14px 30px -18px rgba(110,42,70,.4); font-size:15px; line-height:1.9;
+  }
+  #celebration .summary b{ color:var(--coral-deep); }
+  #send-answer{
+    display:inline-block; margin-top:22px; background:#25D366; color:#fff;
+    text-decoration:none; padding:14px 30px; border-radius:999px; font-weight:700;
+    font-family:'Quicksand'; box-shadow:0 12px 24px -10px rgba(37,211,102,.6);
+  }
+  #copy-answer{
+    display:inline-block; margin-top:14px; background:none; border:2px solid var(--peach);
+    color:var(--ink-soft); padding:10px 22px; border-radius:999px; font-family:'Quicksand';
+    font-weight:600; cursor:pointer; font-size:14px;
+  }
+
+  footer{
+    text-align:center; padding:36px 20px 60px; font-size:13px; color:var(--ink-soft);
+    position:relative; z-index:1;
+  }
+
+  .confetti{
+    position:fixed; top:-10px; width:10px; height:14px; z-index:50; pointer-events:none;
+    animation: fall 2.6s linear forwards;
+  }
+  @keyframes fall{
+    to{ transform:translateY(105vh) rotate(600deg); opacity:.2; }
+  }
+</style>
+</head>
+<body>
+
+<div id="heart-field"></div>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <span class="eyebrow">a very important question</span>
+  <h1>
+    Hey <span id="her-name-slot">You</span>, <!-- EDIT: her name is pulled from CONFIG below -->
+    <span class="script-big">will you go on a date&nbsp;with&nbsp;me?</span>
+  </h1>
+  <p class="sub">No pressure. Just me, hoping you'll say yes, and a page I made
+    because texting "wanna hang out" felt too small for how much I actually want to see you.</p>
+
+  <div class="hero-photo-wrap">
+    <img class="hero-photo" src="images/hero-couple.jpg" alt="Us">
+    <span class="hero-photo-caption">us, being us</span>
+  </div>
+
+  <div class="scroll-cue">
+    <span>keep scrolling</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- ================= NOTES ================= -->
+<section id="notes">
+  <h2>a few reasons, off the top of my head</h2>
+  <p class="lede">(there are more. this page just isn't long enough.)</p>
+  <div class="note-grid" id="note-grid"></div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section id="gallery">
+  <h2>a few of my favourite pictures of you</h2>
+  <p class="lede">yes, I have more saved than I'll ever admit to</p>
+  <div class="gallery-grid" id="gallery-grid"></div>
+</section>
+
+<!-- ================= PLANNER ================= -->
+<section id="planner">
+  <h2>okay, so — let's actually plan it</h2>
+  <p class="lede">Pick whatever works for you. I'll make it happen.</p>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="date-input">Pick a day</label>
+      <input type="date" id="date-input">
+    </div>
+    <div class="field">
+      <label for="time-select">Pick a time</label>
+      <select id="time-select">
+        <option value="">Choose a time</option>
+        <option>10:00 AM — brunch</option>
+        <option>1:00 PM — lunch</option>
+        <option>4:00 PM — coffee</option>
+        <option>7:00 PM — dinner</option>
+        <option>9:00 PM — dessert & a walk</option>
+      </select>
+    </div>
+  </div>
+
+  <p class="cafe-heading">now pick a spot — some favourites around Surat</p>
+  <div class="cafe-grid" id="cafe-grid"></div>
+</section>
+
+<!-- ================= RSVP ================= -->
+<section id="rsvp">
+  <h2 class="script" style="font-size:clamp(32px,6vw,48px);">so... what do you say?</h2>
+  <div class="plan-echo" id="plan-echo">pick a day, time, and café above — or just hit yes anyway 😌</div>
+
+  <div class="rsvp-buttons">
+    <button class="btn" id="yes-btn" onclick="celebrate()">Yes, obviously 💛</button>
+    <button class="btn" id="no-btn">no thanks</button>
+  </div>
+
+  <div id="celebration">
+    <h3>yay! 🎉</h3>
+    <div class="summary" id="summary-box"></div>
+    <br>
+    <a id="send-answer" href="#" target="_blank">Send him my answer on WhatsApp 💬</a>
+    <br>
+    <button id="copy-answer" type="button">or just copy my answer as text</button>
+  </div>
+</section>
+
+<footer>made with a slightly nervous amount of care, just for you.</footer>
+
+<script>
+/* =========================================================
+   EDIT ME: this is the only section you need to touch.
+========================================================= */
+const CONFIG = {
+  herName: "Ishika",           // her name
+  yourName: "your someone",    // EDIT: put your own name/nickname here — used in the WhatsApp message
+  yourWhatsapp: "911234567890",// EDIT: YOUR WhatsApp number, country code + number, digits only, no + or spaces
+                                // e.g. India number 98765 43210 -> "919876543210"
+  notes: [                     // EDIT: swap in your own real reasons/memories if you like
+    "You make ordinary days feel like inside jokes.",
+    "You laugh with your whole face and I'm obsessed with it.",
+    "You remember tiny things I say and bring them up weeks later.",
+    "Talking to you is the easiest part of my day.",
+    "You're the first person I want to tell good news to.",
+    "I just... really like you. That's it. That's the reason."
+  ],
+  joke: "Fair warning: I make bad puns on dates. Studies show (I made this up) 9/10 people find it charming after the third one. You'll be the judge of the tenth.",
+  gallery: [
+    { src:"images/ishika-red.jpg", caption:"the red dress era" },
+    { src:"images/ishika-kurti.jpg", caption:"this smile, specifically" },
+    { src:"images/ishika-floral.jpg", caption:"favourite candid" }
+  ],
+  cafes: [
+    { name:"The Bungalow Cafe", area:"Vesu", rating:4.2, note:"Rooftop seating, cozy candle-lit vibe" },
+    { name:"Cafe Beats Arena", area:"Piplod, near VR Mall", rating:4.6, note:"Aesthetic rooftop, great for evenings" },
+    { name:"Fenster Cafe", area:"Katargam", rating:4.8, note:"Calm, modern, perfect for long conversations" },
+    { name:"365 The Travel Cafe", area:"City Light", rating:4.8, note:"Quirky travel theme, relaxed music" }
+  ]
+};
+
+document.getElementById('her-name-slot').textContent = CONFIG.herName;
+document.title = `A Question For ${CONFIG.herName}`;
+
+/* ---- floating hearts ---- */
+const field = document.getElementById('heart-field');
+const glyphs = ['♥','✿','✦'];
+for(let i=0;i<22;i++){
+  const el = document.createElement('span');
+  el.className = 'float-heart';
+  el.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+  el.style.left = Math.random()*100 + 'vw';
+  el.style.fontSize = (14 + Math.random()*18) + 'px';
+  el.style.setProperty('--drift', (Math.random()*80-40)+'px');
+  el.style.animationDuration = (10 + Math.random()*10) + 's';
+  el.style.animationDelay = (Math.random()*10) + 's';
+  field.appendChild(el);
+}
+
+/* ---- notes ---- */
+const noteGrid = document.getElementById('note-grid');
+CONFIG.notes.forEach((text,i)=>{
+  const card = document.createElement('div');
+  card.className = 'note-card';
+  card.innerHTML = `<span class="note-num">reason ${String(i+1).padStart(2,'0')}</span>${text}`;
+  noteGrid.appendChild(card);
+});
+if(CONFIG.joke){
+  const jokeCard = document.createElement('div');
+  jokeCard.className = 'note-card joke';
+  jokeCard.innerHTML = `<span class="note-num">fair warning</span>${CONFIG.joke}`;
+  noteGrid.appendChild(jokeCard);
+}
+
+/* ---- gallery ---- */
+const galleryGrid = document.getElementById('gallery-grid');
+CONFIG.gallery.forEach(pic=>{
+  const p = document.createElement('div');
+  p.className = 'polaroid';
+  p.innerHTML = `<img src="${pic.src}" alt="${pic.caption}"><div class="cap">${pic.caption}</div>`;
+  galleryGrid.appendChild(p);
+});
+
+/* ---- cafes ---- */
+const cafeGrid = document.getElementById('cafe-grid');
+let selectedCafe = null;
+CONFIG.cafes.forEach(cafe=>{
+  const card = document.createElement('div');
+  card.className = 'cafe-card';
+  card.innerHTML = `<h4>${cafe.name}</h4>
+    <div class="meta">${cafe.area}<br>${cafe.note}</div>
+    <div class="stars">★ ${cafe.rating}</div>`;
+  card.addEventListener('click', ()=>{
+    document.querySelectorAll('.cafe-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedCafe = cafe.name;
+    updateEcho();
+  });
+  cafeGrid.appendChild(card);
+});
+
+/* ---- plan echo ---- */
+const dateInput = document.getElementById('date-input');
+const timeSelect = document.getElementById('time-select');
+const echo = document.getElementById('plan-echo');
+function updateEcho(){
+  const parts = [];
+  if(dateInput.value){
+    const d = new Date(dateInput.value+'T00:00:00');
+    parts.push(d.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'}));
+  }
+  if(timeSelect.value) parts.push(timeSelect.value);
+  if(selectedCafe) parts.push(`at ${selectedCafe}`);
+  echo.textContent = parts.length
+    ? "so that's " + parts.join(', ') + " — sound good?"
+    : "pick a day, time, and café above — or just hit yes anyway 😌";
+}
+dateInput.addEventListener('input', updateEcho);
+timeSelect.addEventListener('change', updateEcho);
+
+/* ---- dodging no button ---- */
+const noBtn = document.getElementById('no-btn');
+const rsvpBox = document.querySelector('.rsvp-buttons');
+function dodge(){
+  const box = rsvpBox.getBoundingClientRect();
+  const btn = noBtn.getBoundingClientRect();
+  const maxX = box.width - btn.width - 10;
+  const maxY = box.height - btn.height - 10;
+  const x = Math.random()*Math.max(maxX,0) - maxX/2;
+  const y = Math.random()*Math.max(maxY,0) - maxY/2;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+noBtn.addEventListener('mouseenter', dodge);
+noBtn.addEventListener('click', (e)=>{ e.preventDefault(); dodge(); });
+noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); dodge(); });
+
+/* ---- celebrate ---- */
+function confettiBurst(){
+  const colors = ['#FF6B6B','#F2B705','#FFD3B0','#7FA37F','#6E2A46'];
+  for(let i=0;i<60;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100+'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = (Math.random()*0.6)+'s';
+    c.style.animationDuration = (2 + Math.random()*1.4)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 4200);
+  }
+}
+function celebrate(){
+  confettiBurst();
+  document.getElementById('celebration').classList.add('show');
+
+  const plainParts = [];
+  const htmlParts = [];
+  if(dateInput.value){
+    const niceDate = new Date(dateInput.value+'T00:00:00')
+      .toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+    plainParts.push(`Date: ${niceDate}`);
+    htmlParts.push(`<b>Date:</b> ${niceDate}`);
+  }
+  if(timeSelect.value){
+    plainParts.push(`Time: ${timeSelect.value}`);
+    htmlParts.push(`<b>Time:</b> ${timeSelect.value}`);
+  }
+  if(selectedCafe){
+    plainParts.push(`Spot: ${selectedCafe}`);
+    htmlParts.push(`<b>Spot:</b> ${selectedCafe}`);
+  }
+
+  document.getElementById('summary-box').innerHTML = htmlParts.length
+    ? htmlParts.join('<br>') + "<br><br>I'll count down the days. 💛"
+    : "Details TBD — I'll message you and we'll figure it out. 💛";
+
+  // ---- build her reply message for WhatsApp / copy ----
+  const message = plainParts.length
+    ? `It's a yes 💛\n${plainParts.join('\n')}\n— ${CONFIG.herName}`
+    : `It's a yes 💛 — let's figure out the details.\n— ${CONFIG.herName}`;
+
+  const sendBtn = document.getElementById('send-answer');
+  sendBtn.href = `https://wa.me/${CONFIG.yourWhatsapp}?text=${encodeURIComponent(message)}`;
+
+  document.getElementById('copy-answer').onclick = ()=>{
+    navigator.clipboard.writeText(message).then(()=>{
+      const btn = document.getElementById('copy-answer');
+      const old = btn.textContent;
+      btn.textContent = 'copied ✓';
+      setTimeout(()=> btn.textContent = old, 1800);
+    });
+  };
+
+  document.getElementById('celebration').scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+</body>
+</html>
